@@ -25,6 +25,7 @@
 #	$Sfts
 #}
 $GetDate = Get-Date
+$nl = [Environment]::NewLine
 
 function DL(){
 	New-Item -Path $env:UserProfile\Desktop\SysinternalsSuite -ItemType Directory
@@ -38,10 +39,11 @@ function PrintFormatting($OtP){
 	$loc = "$env:UserProfile\Desktop\Output.txt"
 	if($otp -eq '1'){
 		echo "##############################" >> $loc
+        echo "$GetDate" >> $loc
 	}
 	else{
-		echo "$GetDate 
-			$OtP" >> $loc
+		echo $OtP >> $loc
+        echo $nl >> $loc
 	}
     #echo "##############################" >> $loc
 }
@@ -51,12 +53,16 @@ function Enumeration(){
 		cycle through them
 		apply a[x] = $var
 		pass $var to PrintFormatting
-		#>
-	$filter = ('netstat -ano | Select-String -Pattern Established', 'Get-Process', 'Get-Service | findstr Running', "get-addomain", "get-aduser -filter *", "get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq “True”} | Select-Object DistinguishedName, Name, Enabled", 
-				'search-ADAccount -LockedOut', 'Get-ADGroupMember -Identity "name"', "Get-ADGroup -Filter *", "Get-ADComputer -filter *", 
-				'Get-GPO -all | select DisplayName, gpostatus', 'Get-execution policy', "rendom /list")
-	PrintFormatting('1')
+		
+
+
+"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq True�} | Select-Object DistinguishedName, Name, Enabled"#>
+	$filter = ('netstat -ano | Select-String -Pattern Established', 'Get-Process', 'Get-Service | findstr Running', "get-addomain", "get-aduser -filter *", 
+				'search-ADAccount -LockedOut',"Get-ADGroup -Filter *", "Get-ADComputer -filter *", 
+				'Get-GPO -all | select DisplayName, gpostatus', 'get-executionpolicy', "rendom /list")
 	foreach($x in $filter){
+        PrintFormatting('1')
+        PrintFormatting(-join 'Running',$x, $nl)
 		PrintFormatting(Invoke-expression($x))
 	}
 }
@@ -66,7 +72,7 @@ function FirewallInit(){
 	PrintFormatting('Enabled Firewall')
 	$en = 'Set-NetFirewallProfile -Enabled True'
 	PrintFormatting(invoke-Expression($en))
-	$filter = ('get-netadapter', 'Get-NetFirewallRule | Select-Object DisplayName, Enabled, Direction, Action | Select-String -Pattern True',)
+	$filter = ('get-netadapter', 'Get-NetFirewallRule | Select-Object DisplayName, Enabled, Direction, Action | Select-String -Pattern True')
 	foreach($x in $filter){
 	PrintFormatting(invoke-Expression($x))
 	}
