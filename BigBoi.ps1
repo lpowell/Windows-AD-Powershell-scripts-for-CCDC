@@ -78,7 +78,7 @@ function Enumeration(){
 		
 
 
-"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq True} | Select-Object DistinguishedName, Name, Enabled"#>
+"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq TrueÂ} | Select-Object DistinguishedName, Name, Enabled"#>
 	$filter = ('netstat -anob | Select-String -Pattern Established', 'netstat -anob | Select-String -Pattern Listening', 'Get-Process', 'Get-Service | findstr Running',"get-scheduledtask | findstr Ready", "get-scheduledtask | findstr Running",
 				"get-addomain", "get-aduser -filter *", 
 				"net user",'search-ADAccount -LockedOut',"Get-ADGroup -Filter *", "Get-ADComputer -filter *", 
@@ -208,18 +208,18 @@ function Sniff(){
 ### Inject set up (No execution or finalization), environment set up, 
 ### Parse enumeration ouput for outliers and potential threats
 ###########################################################
-if($Arg[0] = 1){
+if($Args[0] = 1){
 	DL
 }
-if($Arg[1] = 1){
+if($Args[1] = 1){
 	Enumeration
 }
-if($Arg[2] = 1){
+if($Args[2] = 1){
 	FirewallInit
 }
-if($Arg[3] = 1){
+if($Args[3] = 1){
 	Install
 }
-if($Arg[4] = 1){
+if($Args[4] = 1){
 	Clammy
 }
