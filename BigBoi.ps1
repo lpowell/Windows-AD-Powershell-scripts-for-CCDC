@@ -32,28 +32,39 @@ function DL(){
 	New-Item -Path $env:UserProfile\Desktop\SysinternalsSuite -ItemType Directory
 	Invoke-WebRequest -Uri https://download.sysinternals.com/files/SysinternalsSuite.zip -Outfile $env:UserProfile\Desktop\SysinternalsSuite\SysinternalsSuite.zip
 	PrintFormatting('SysinternalsSuite downloaded')
+    echo 'SysinternalsSuite downloaded'
 	Invoke-WebRequest -Uri https://download.mozilla.org/?product=firefox-stub"&"os=win"&"lang=en-US -Outfile $env:UserProfile\Desktop\firefox.exe
 	PrintFormatting('Firefox downloaded')
+    echo 'Firefox downloaded'
 	Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/?linkid=839516 -Outfile $env:UserProfile\Desktop\wmf5r28.msu
 	Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/?linkid=839513 -Outfile $env:UserProfile\Desktop\wmf5.msu
 	PrintFormatting('Windows Management Framework 5.1 downloaded')
+    echo 'Windows Management Framework 5.1 downloaded'
 	Invoke-WebRequest -Uri 'https://github.com/PowerShell/PowerShell/releases/download/v7.2.1/PowerShell-7.2.1-win-x86.msi' -Outfile $env:UserProfile\Desktop\PowerShell.msi
 	PrintFormatting('PowerShell-7 downloaded')
+    echo 'PowerShell 7 downloaded'
 	Invoke-WebRequest -Uri 'https://nxlog.co/system/files/products/files/348/nxlog-ce-2.11.2190.msi' -Outfile $env:UserProfile\Desktop\nxlog.msi
 	PrintFormatting('NXLog downloaded')
+    echo 'NXLog downloaded'
 	Invoke-WebRequest -Uri https://github.com/ION28/BLUESPAWN/archive/refs/heads/master.zip -Outfile $env:UserProfile\Desktop\bluespawn.zip
 	PrintFormatting('Bluespawn downloaded')
+    echo 'Bluespawn Downloaded'
 	Invoke-WebRequest -Uri 'https://download.splunk.com/products/universalforwarder/releases/8.2.4/windows/splunkforwarder-8.2.4-87e2dda940d1-x64-release.msi' -Outfile $env:UserProfile\Desktop\Splunk.msi
 	PrintFormatting('Splunk forwarder downloaded')
+    echo 'Splunk forwarder downloaded'
 	Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x86.exe' -Outfile $env:UserProfile\Desktop\msvcrd.exe
 	PrintFormatting('C++ Redistributable downloaded')
+    echo 'C++ Redistributable downloaded'
 	Invoke-WebRequest -Uri 'https://www.clamav.net/downloads/production/clamav-0.104.1.win.x64.msi' -Outfile $env:UserProfile\Desktop\vongole.msi
 	PrintFormatting('ClamAV downloaded')
+    echo 'ClamAV downloaded'
 	Invoke-WebRequest -Uri 'http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/03/windows8-rt-kb4012217-x64_96635071602f71b4fb2f1a202e99a5e21870bc93.msu' -Outfile $env:UserProfile\Desktop\eb.msu
 	Invoke-WebRequest -Uri 'http://download.windowsupdate.com/d/msdownload/update/software/secu/2017/03/windows8.1-kb4012216-x64_cd5e0a62e602176f0078778548796e2d47cfa15b.msu' -Outfile $env:UserProfilie\Desktop\ebr28.msu
 	PrintFormatting('Eternal Blue Patch downloaded')
+    echo 'Eternal Blue Patch downloaded'
 	Invoke-WebRequest -Uri 'https://gist.github.com/mubix/fd0c89ec021f70023695/archive/02e3f0df13aa86da41f1587ad798ad3c5e7b3711.zip' -Outfile $env:UserProfile\Desktop\krbtgtkeyreset.zip
 	PrintFormatting('KRBTGT Reset script downloaded')
+    echo 'KRBTGT Reset script downloaded'
 	PrintFormatting('1')
 }
 #Downloads
@@ -78,7 +89,7 @@ function Enumeration(){
 		
 
 
-"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq TrueÂ} | Select-Object DistinguishedName, Name, Enabled"#>
+"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq True} | Select-Object DistinguishedName, Name, Enabled"#>
 	$filter = ('netstat -anob | Select-String -Pattern Established', 'netstat -anob | Select-String -Pattern Listening', 'Get-Process', 'Get-Service | findstr Running',"get-scheduledtask | findstr Ready", "get-scheduledtask | findstr Running",
 				"get-addomain", "get-aduser -filter *", 
 				"net user",'search-ADAccount -LockedOut',"Get-ADGroup -Filter *", "Get-ADComputer -filter *", 
@@ -102,9 +113,9 @@ function FirewallInit(){
 	PrintFormatting(invoke-Expression($x))
 	}
 	$partone = 'New-Netfirewallrule -DisplayName '
-	$parttwo = ('"Block SMB"', '"Block RDP"', '"Block SSH"', '"Block VNC"','"Range Block 1-52"','"Range Block 53-79"','"Range Block 81-388"','"Range Block 390-442"','"Range Block 444-8079"','"Range Block 8081-65535"')
+	$parttwo = ('"Block SMB"', '"Block RDP"', '"Block SSH"', '"Block VNC"','"Range Block 1-52"','"Range Block 53-79"','"Range Block 81-87"','"Range Block 89-388"','"Range Block 390-442"','"Range Block 444-463"','"465-8079"','"Range Block 8081-65535"')
 	$partthree = ' -Direction Inbound -LocalPort ' 
-	$partfour = ('445','3389','22','5300','1-52','54-79','81-388','390-442','444-8079','8081-65535')
+	$partfour = ('445','3389','22','5300','1-52','54-79','81-87','89-388','390-442','444-463','465-8079','8081-65535')
 	$partfive = ' -Protocol TCP -Action Block'
 	#could've just added the hards to the join
 	#will be expanded
@@ -116,8 +127,8 @@ function FirewallInit(){
 	}
 	$Finaltwo =@()
 	$z=0
-	foreach($y in $parttwo){
-		$Finaltwo += ,-join ($partone,$y,"' -Direction Outbound -LocalPort '",$partfour[$z],$partfive)
+	foreach($yy in $parttwo){
+		$Finaltwo += ,-join ($partone,$yy,' -Direction Outbound -LocalPort ',$partfour[$z],$partfive)
 		$z++
 	}
 	#for outbounds
@@ -129,8 +140,8 @@ function FirewallInit(){
 	}
 	
 	#enables
-	$enablenames = ('"Allow DNS"','"Allow HTTP"', '"Allow LDAP 389"', '"Allow HTTPS"', '"Allow Splunk"')
-	$enableports = ('53','80','389','443','8089')
+	$enablenames = ('"Allow DNS"','"Allow HTTP"', '"Allow LDAP 389"', '"Allow HTTPS"', '"Allow Splunk"','"Allow Kerberos 88 & 464"' )
+	$enableports = ('53','80','389','443','8089','88,464')
 	$enabler =@()
 	$z=0
 	foreach($w in $enablenames){
@@ -138,9 +149,11 @@ function FirewallInit(){
 		$z++
 	}
 	$enablertwo =@()
+    $z=0
 	foreach($v in $enablenames){
-		$enablertwo +=,-join ('New-NetFirewallRule -DisplayName ',$w,' -Direction Outbound -LocalPort ',$enableports[$z],' -Protocol TCP -Action Allow')
-	}
+		$enablertwo +=,-join ('New-NetFirewallRule -DisplayName ',$v,' -Direction Outbound -LocalPort ',$enableports[$z],' -Protocol TCP -Action Allow')
+	    $z++
+    }
 	foreach($zz in $enabler){
 		invoke-Expression($zz)
 	}
@@ -208,18 +221,18 @@ function Sniff(){
 ### Inject set up (No execution or finalization), environment set up, 
 ### Parse enumeration ouput for outliers and potential threats
 ###########################################################
-if($Args[0] = 1){
+if($Args[0] -eq 1){
 	DL
 }
-if($Args[1] = 1){
+if($Args[1] -eq 1){
 	Enumeration
 }
-if($Args[2] = 1){
+if($Args[2] -eq 1){
 	FirewallInit
 }
-if($Args[3] = 1){
+if($Args[3] -eq 1){
 	Install
 }
-if($Args[4] = 1){
+if($Args[4] -eq 1){
 	Clammy
-}
+} 
