@@ -28,6 +28,7 @@ $GetDate = Get-Date
 $nl = [Environment]::NewLine
 
 function DL(){
+    PrintFormatting('1')
 	[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls, Ssl3"
 	New-Item -Path $env:UserProfile\Desktop\SysinternalsSuite -ItemType Directory
 	Invoke-WebRequest -Uri https://download.sysinternals.com/files/SysinternalsSuite.zip -Outfile $env:UserProfile\Desktop\SysinternalsSuite\SysinternalsSuite.zip
@@ -112,11 +113,14 @@ function FirewallInit(){
 	foreach($x in $filter){
 	PrintFormatting(invoke-Expression($x))
 	}
+    (New-Object -ComObject HNetCfg.FwPolicy2).RestoreLocalFirewallDefaults()
+    PrintFormatting('1')
+    PrintFormatting('Reset firewall to installation defaults')
 	$partone = 'New-Netfirewallrule -DisplayName '
 	$parttwo = ('"Block SMB"', '"Block RDP"', '"Block SSH"', '"Block VNC"','"Range Block 1-52"','"Range Block 53-79"','"Range Block 81-87"','"Range Block 89-388"','"Range Block 390-442"','"Range Block 444-463"','"465-8079"','"Range Block 8081-49151"')
     #must keep 49152-65535 open according to ms
 	$partthree = ' -Direction Inbound -LocalPort ' 
-	$partfour = ('445','3389','22','5300','1-52','54-79','81-87','89-388','390-442','444-463','465-8079','8081-65535')
+	$partfour = ('445','3389','22','5300','1-52','54-79','81-87','89-388','390-442','444-463','465-8079','8081-49151')
 	$partfive = ' -Protocol TCP -Action Block'
 	#could've just added the hards to the join
 	#will be expanded
@@ -133,11 +137,15 @@ function FirewallInit(){
 		$z++
 	}
 	#for outbounds
+    PrintFormatting('1')
+    PrintFormatting('Created BLOCK Rules')
 	foreach($i in $final){
 		invoke-expression($i)
+        PrintFormatting($i)
 	}
 	foreach($d in $Finaltwo){
 		invoke-Expression($d)
+        PrintFormatting($d)
 	}
 	
 	#enables
@@ -155,11 +163,15 @@ function FirewallInit(){
 		$enablertwo +=,-join ('New-NetFirewallRule -DisplayName ',$v,' -Direction Outbound -LocalPort ',$enableports[$z],' -Protocol TCP -Action Allow')
 	    $z++
     }
+    PrintFormatting('1')
+    PrintFormatting('Created ALLOW rules')
 	foreach($zz in $enabler){
 		invoke-Expression($zz)
+        PrintFormatting($zz)
 	}
 	foreach($xx in $enablertwo){
 		invoke-expression($xx)
+        PrintFormatting($xx)
 	}
 }
 function Install(){
