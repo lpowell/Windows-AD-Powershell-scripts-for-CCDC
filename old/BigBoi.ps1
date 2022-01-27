@@ -56,7 +56,7 @@ function Enumeration(){
 		
 
 
-"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq True} | Select-Object DistinguishedName, Name, Enabled"#>
+"get-aduser -filter * -Properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq TrueÂ} | Select-Object DistinguishedName, Name, Enabled"#>
 	$filter = ('netstat -ano | Select-String -Pattern Established', 'Get-Process', 'Get-Service | findstr Running', "get-addomain", "get-aduser -filter *", 
 				'search-ADAccount -LockedOut',"Get-ADGroup -Filter *", "Get-ADComputer -filter *", 
 				'Get-GPO -all | select DisplayName, gpostatus', 'get-executionpolicy', "rendom /list")
