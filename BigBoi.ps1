@@ -113,7 +113,8 @@ function FirewallInit(){
 	PrintFormatting(invoke-Expression($x))
 	}
 	$partone = 'New-Netfirewallrule -DisplayName '
-	$parttwo = ('"Block SMB"', '"Block RDP"', '"Block SSH"', '"Block VNC"','"Range Block 1-52"','"Range Block 53-79"','"Range Block 81-87"','"Range Block 89-388"','"Range Block 390-442"','"Range Block 444-463"','"465-8079"','"Range Block 8081-65535"')
+	$parttwo = ('"Block SMB"', '"Block RDP"', '"Block SSH"', '"Block VNC"','"Range Block 1-52"','"Range Block 53-79"','"Range Block 81-87"','"Range Block 89-388"','"Range Block 390-442"','"Range Block 444-463"','"465-8079"','"Range Block 8081-49151"')
+    #must keep 49152-65535 open according to ms
 	$partthree = ' -Direction Inbound -LocalPort ' 
 	$partfour = ('445','3389','22','5300','1-52','54-79','81-87','89-388','390-442','444-463','465-8079','8081-65535')
 	$partfive = ' -Protocol TCP -Action Block'
