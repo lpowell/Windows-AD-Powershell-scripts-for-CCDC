@@ -56,7 +56,7 @@ function ServiceStopper(){
 	$fail =@()
 	$test =@("ADWS","BFE","BrokerInfrastructure","CertPropSvc","CryptSvc","DcomLaunch","Dfs","DFSR","Dhcp","DNS","Dnscache","DPS","EventLog","EventSystem","FontCache","gpsvc","iphlpsvc","IsmServ",
 			 "Kdc","LanmanServer","lmhosts","LSM","MpsSvc","MSDTC","Netlogon","netprofm","NlaSvc","nsi","NTDS","PlugPlay","PolicyAgent","Power","ProfSvc","RpcEptMapper",
-			 "RpcSs","SamSs","Schedule","SENS","SessionEnv","ShellHWDetection","Themes","UALSVC","vds","W32Time","WinHttpAutoProxySvc","Winmgmt","WLMS")
+			 "RpcSs","SamSs","Schedule","SENS","SessionEnv","ShellHWDetection","Themes","UALSVC","vds","W32Time","WinHttpAutoProxySvc","Winmgmt","WLMS","com.docker.service","docker")
 	$service = (get-service | select-object Name | foreach { $_.Name -as [string]})
 	foreach($x in $service){
 		$z=0
@@ -96,7 +96,7 @@ function ProcessStopper(){
 	$success =@()
 	$fail =@()
 	$test =@("conhost","csrss","dfsrs","dfssvc","dns","dwm","explorer","Idle","iexplore","lsass","Microsoft.ActiveDirectory.WebServices","mmc",
-			 "msdtc","notepad","powershell","ServerManager","services","smss","spoolsy","svchost","System","taskhostex","vds","wininit","winlogon","wlms","WmiPrvSE")
+			 "msdtc","notepad","powershell","ServerManager","services","smss","spoolsy","svchost","System","taskhostex","vds","wininit","winlogon","wlms","WmiPrvSE","com.docker.service","docker")
 	$service = (get-process | select-object Name | foreach { $_.Name -as [string]})
 	foreach($x in $service){
 		$z=0
