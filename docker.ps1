@@ -251,5 +251,25 @@ function Clammy(){
 	echo 'Run: .\clamscan.exe -recursive C:\'
 	
 }
-ServiceStopper
-ProcessStopper
+if($Args[0] -eq 1){
+	DL
+}
+if($Args[1] -eq 1){
+	Enumeration
+}
+if($Args[2] -eq 1){
+	FirewallInit
+}
+if($Args[3] -eq 1){
+	Install
+}
+if($Args[4] -eq 1){
+	Clammy
+}
+if($args[5] -eq 1){
+	ServiceStopper
+}
+if($args[6] -eq 1){
+	ProcessStopper
+}
+
