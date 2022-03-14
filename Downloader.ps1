@@ -45,3 +45,4 @@ function VersionCheck(){
         Invoke-WebRequest -Uri 'https://www.clamav.net/downloads/production/clamav-0.104.1.win.x64.msi' -Outfile $env:UserProfile\Desktop\vongole.msi
         echo 'ClamAV downloaded'
     }
+VersionCheck
