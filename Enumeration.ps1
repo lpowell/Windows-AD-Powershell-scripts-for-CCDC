@@ -7,7 +7,7 @@ function Enumeration(){
                 "net user",'search-ADAccount -LockedOut',"Get-ADGroup -Filter *", "Get-ADComputer -filter *", 
                 'Get-GPO -all | select DisplayName, gpostatus', 'get-executionpolicy', "rendom /list", "wmic qfe list brief",
                 "wmic startup get caption,command,location", "ls 'C:\Program Files'", "ls 'C:\Program Files (x86)'",
-                "wmic product get Caption,InstallDate,Vendor","get-windowsfeature | where Installed | %{out-string -InputObject $_.Name}","gwmi win32_computersystem","gwmi win32_operatingsystem","get-childitem -Path C:\ -Recurse")
+                "wmic product get Caption,InstallDate,Vendor","get-windowsfeature | where Installed","gwmi win32_computersystem","gwmi win32_operatingsystem","get-childitem -Path C:\ -Recurse")
     foreach($x in $filter){
         PrintFormatting('1')
         PrintFormatting(-join 'Running',$x, $nl)

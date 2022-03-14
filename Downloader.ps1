@@ -24,6 +24,7 @@ function VersionCheck(){
                     Invoke-WebRequest -Uri 'https://gist.github.com/mubix/fd0c89ec021f70023695/archive/02e3f0df13aa86da41f1587ad798ad3c5e7b3711.zip' -Outfile $env:UserProfile\Desktop\krbtgtkeyreset.zip
                     echo 'KRBTGT Reset script downloaded'
         }
+    }
     function BasicDownload{
         [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls, Ssl3"
         New-Item -Path $env:UserProfile\Desktop\SysinternalsSuite -ItemType Directory
