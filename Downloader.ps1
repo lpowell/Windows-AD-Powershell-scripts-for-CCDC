@@ -47,3 +47,4 @@ function VersionCheck(){
         echo 'ClamAV downloaded'
     }
 VersionCheck
+BasicDownload
