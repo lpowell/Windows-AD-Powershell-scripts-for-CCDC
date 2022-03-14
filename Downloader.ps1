@@ -1,7 +1,7 @@
 # downloader for windows
 function VersionCheck(){
     $Version =@("2012","2016","2019")
-    foreach($x in $Versions){if(((get-wmiobject win32_operatingsystem).name -match $x) -eq 'True'){Downloader($x)}}
+    foreach($x in $Version){if(((get-wmiobject win32_operatingsystem).name -match $x) -eq 'True'){Downloader($x)}}
 }
     function Downloader($Role){
         [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls, Ssl3"
