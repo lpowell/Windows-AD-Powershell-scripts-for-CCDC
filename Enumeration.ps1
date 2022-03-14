@@ -13,7 +13,7 @@ function Enumeration(){
         PrintFormatting(-join 'Running',$x, $nl)
         try
         {
-        PrintFormatting(Invoke-expression($x))
+            PrintFormatting(Invoke-expression($x))
         }
         catch
         {
